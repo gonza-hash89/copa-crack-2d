@@ -5,12 +5,10 @@ const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] });
 const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] });
 
 export const metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
   title: 'Copa Crack Perú | Torneo de Fútbol Menores',
   description:
     'Inscripciones abiertas para la Copa Crack Perú - Temporada Enero 2027. Categorías Sub-6 a Sub-16.',
-  // Descomenta y pon tu dominio real al desplegar: WhatsApp exige URL absoluta
-  // para la vista previa de la imagen.
-  // metadataBase: new URL('https://www.tudominio.pe'),
   openGraph: {
     title: 'Copa Crack Perú | Torneo de Fútbol Menores',
     description:
