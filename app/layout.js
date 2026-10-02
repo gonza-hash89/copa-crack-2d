@@ -9,6 +9,10 @@ export const metadata = {
   title: 'Copa Crack Perú | Torneo de Fútbol Menores',
   description:
     'Inscripciones abiertas para la Copa Crack Perú - Temporada Enero 2027. Categorías Sub-6 a Sub-16.',
+  verification: {
+    // Solo el token: Next genera la etiqueta <meta> automáticamente.
+    google: 'aq_QrbF_TJjDlPOh8j3PF0g7dwX5r1K-GsSto8GIMfI',
+  },
   openGraph: {
     title: 'Copa Crack Perú | Torneo de Fútbol Menores',
     description:
