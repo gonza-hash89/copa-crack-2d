@@ -31,7 +31,7 @@ export default function Home() {
 
       <section id="equipos" className={section}>
         <h2 className="mb-2 flex items-center gap-2 text-4xl font-black"><Shield className="text-[#FFD700]" /> Equipos Participantes</h2>
-        <p className="mb-8 text-gray-300">14 academias confirmadas para Enero 2027</p>
+        <p className="mb-8 text-gray-300">14 academias participantes del último campeonato</p>
         <div className="w-full max-w-5xl">
           <ul className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
             {teams.map((team) => (
