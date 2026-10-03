@@ -5,8 +5,8 @@ import { Lock, Upload, Link2, Trash2, LogOut, ImagePlus } from 'lucide-react';
 // PIN por defecto. Para cambiarlo sin tocar código, define
 // NEXT_PUBLIC_GALLERY_PIN en tus variables de entorno (Vercel).
 const DEFAULT_PIN = 'copacrack2026';
-const STORAGE_KEY = 'copa-crack-gallery';
-const MAX_FILE_MB = 2.5;
+const LOCAL_KEY = 'copa-crack-gallery-local';
+const MAX_FILE_MB = 4;
 
 const getPin = () =>
   (typeof process !== 'undefined' && process.env.NEXT_PUBLIC_GALLERY_PIN) ||
@@ -15,18 +15,12 @@ const getPin = () =>
 const uid = () =>
   `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
 
-function loadPhotos() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    const parsed = raw ? JSON.parse(raw) : [];
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
-}
-
 export default function Gallery() {
-  const [photos, setPhotos] = useState([]);
+  // cloud: fotos globales (Vercel Blob) · local: URLs pegadas (este navegador)
+  const [cloud, setCloud] = useState([]);
+  const [local, setLocal] = useState([]);
+  const [cloudOk, setCloudOk] = useState(true);
+  const [uploading, setUploading] = useState(false);
   const [unlocked, setUnlocked] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [pin, setPin] = useState('');
@@ -35,24 +29,30 @@ export default function Gallery() {
   const [caption, setCaption] = useState('');
   const [notice, setNotice] = useState('');
 
-  // Carga inicial desde este navegador (sin backend: cada admin ve sus fotos
-  // en su propio navegador; para galería global se requiere Vercel Blob o
-  // Cloudinary en el futuro).
+  // Carga: nube (global) + copia local (URLs pegadas en este navegador).
   useEffect(() => {
-    setPhotos(loadPhotos());
+    fetch('/api/upload')
+      .then((r) => r.json())
+      .then((data) => {
+        setCloud(Array.isArray(data.photos) ? data.photos : []);
+        if (data.blobDisabled) setCloudOk(false);
+      })
+      .catch(() => setCloudOk(false));
     try {
+      const raw = localStorage.getItem(LOCAL_KEY);
+      if (raw) setLocal(JSON.parse(raw) || []);
       if (sessionStorage.getItem('copa-crack-admin') === '1') setUnlocked(true);
     } catch {
       /* almacenamiento no disponible */
     }
   }, []);
 
-  const persist = (next) => {
-    setPhotos(next);
+  const persistLocal = (next) => {
+    setLocal(next);
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+      localStorage.setItem(LOCAL_KEY, JSON.stringify(next));
     } catch {
-      setNotice('⚠️ Límite del navegador lleno: usa URLs en vez de archivos.');
+      setNotice('⚠️ Límite del navegador lleno.');
     }
   };
 
@@ -82,44 +82,74 @@ export default function Gallery() {
     }
   };
 
+  // Sube archivos a Vercel Blob (visibles para todos los visitantes).
+  const uploadFiles = async (files) => {
+    setNotice('');
+    const valid = [...files].filter((f) => f.type.startsWith('image/'));
+    if (!valid.length) return;
+    const big = valid.find((f) => f.size > MAX_FILE_MB * 1024 * 1024);
+    if (big) {
+      setNotice(`⚠️ "${big.name}" supera ${MAX_FILE_MB}MB: comprímela o usa URL.`);
+      return;
+    }
+    setUploading(true);
+    try {
+      const uploaded = [];
+      for (const file of valid) {
+        const form = new FormData();
+        form.append('file', file);
+        const res = await fetch('/api/upload', { method: 'POST', body: form });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Subida fallida');
+        uploaded.push({ id: data.id, src: data.src, caption: file.name, cloud: true });
+      }
+      setCloud((prev) => [...uploaded, ...prev]);
+      setNotice(`✅ ${uploaded.length} foto(s) publicadas para todos.`);
+    } catch (err) {
+      setNotice(`❌ ${err.message || 'Error al subir.'}`);
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  // Pegar URL externa (solo visible en este navegador).
   const addByUrl = (e) => {
     e.preventDefault();
     const src = url.trim();
     if (!src) return;
-    persist([{ id: uid(), src, caption: caption.trim() }, ...photos]);
+    persistLocal([{ id: uid(), src, caption: caption.trim() }, ...local]);
     setUrl('');
     setCaption('');
-    setNotice('✅ Foto agregada a la galería.');
+    setNotice('✅ Foto agregada (visible solo en este navegador).');
   };
 
-  const addFiles = (files) => {
-    setNotice('');
-    [...files].forEach((file) => {
-      if (!file.type.startsWith('image/')) return;
-      if (file.size > MAX_FILE_MB * 1024 * 1024) {
-        setNotice(`⚠️ "${file.name}" supera ${MAX_FILE_MB}MB: usa la opción de URL.`);
-        return;
-      }
-      const reader = new FileReader();
-      reader.onload = () => {
-        setPhotos((prev) => {
-          const next = [{ id: uid(), src: reader.result, caption: file.name }, ...prev];
-          try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-          } catch {
-            setNotice('⚠️ Límite del navegador lleno: usa URLs en vez de archivos.');
-          }
-          return next;
+  const removePhoto = async (photo) => {
+    if (photo.cloud) {
+      try {
+        const res = await fetch('/api/upload', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url: photo.src }),
         });
-      };
-      reader.readAsDataURL(file);
-    });
+        if (!res.ok) throw new Error();
+        setCloud((prev) => prev.filter((p) => p.id !== photo.id));
+      } catch {
+        setNotice('❌ No se pudo eliminar de la nube.');
+      }
+    } else {
+      persistLocal(local.filter((p) => p.id !== photo.id));
+    }
   };
 
-  const removePhoto = (id) => persist(photos.filter((p) => p.id !== id));
+  const photos = [...cloud, ...local];
 
   return (
     <div className="w-full max-w-4xl">
+      {!cloudOk && (
+        <p className="mb-4 rounded-xl border border-yellow-500/40 bg-yellow-500/10 p-3 text-sm text-yellow-200">
+          ☁️ Nube no configurada (falta BLOB_READ_WRITE_TOKEN): mostrando copia local.
+        </p>
+      )}
       {photos.length === 0 ? (
         <div className="rounded-xl border border-white/10 bg-white/5 p-8 text-center">
           <ImagePlus className="mx-auto mb-4 h-10 w-10 text-[#FFD700]" />
@@ -136,7 +166,7 @@ export default function Gallery() {
                 <figcaption className="absolute inset-x-0 bottom-0 bg-black/60 px-3 py-1.5 text-xs">{p.caption}</figcaption>
               )}
               {unlocked && (
-                <button onClick={() => removePhoto(p.id)} aria-label="Eliminar foto" className="absolute right-2 top-2 rounded-full bg-red-600/90 p-1.5 hover:bg-red-500">
+                <button onClick={() => removePhoto(p)} aria-label="Eliminar foto" className="absolute right-2 top-2 rounded-full bg-red-600/90 p-1.5 hover:bg-red-500">
                   <Trash2 className="h-4 w-4" />
                 </button>
               )}
@@ -145,7 +175,7 @@ export default function Gallery() {
         </div>
       )}
 
-      {/* Acceso administración */}
+      {/* Acceso administración (protegido con PIN) */}
       <div className="mt-6 text-center">
         {!unlocked ? (
           showLogin ? (
@@ -177,17 +207,27 @@ export default function Gallery() {
                 <LogOut className="h-4 w-4" /> Salir
               </button>
             </div>
-            <form onSubmit={addByUrl} className="mb-4 flex flex-col gap-2">
-              <label htmlFor="photo-url" className="inline-flex items-center gap-1 text-sm font-bold"><Link2 className="h-4 w-4" /> Pegar URL de imagen</label>
+            <div className="mb-4">
+              <label htmlFor="photo-file" className="inline-flex cursor-pointer items-center gap-1 text-sm font-bold"><Upload className="h-4 w-4" /> Subir a la nube (visible para todos)</label>
+              <input
+                id="photo-file"
+                type="file"
+                accept="image/*"
+                multiple
+                disabled={uploading || !cloudOk}
+                onChange={(e) => { uploadFiles(e.target.files); e.target.value = ''; }}
+                className="mt-2 block w-full text-sm text-gray-300 disabled:opacity-50"
+              />
+              <p className="mt-1 text-xs text-gray-500">
+                {uploading ? '⏳ Subiendo…' : `Máx. ${MAX_FILE_MB}MB por archivo.`}
+              </p>
+            </div>
+            <form onSubmit={addByUrl} className="flex flex-col gap-2">
+              <label htmlFor="photo-url" className="inline-flex items-center gap-1 text-sm font-bold"><Link2 className="h-4 w-4" /> Pegar URL (solo este navegador)</label>
               <input id="photo-url" value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://…" className="rounded-lg border border-white/10 bg-black/40 px-4 py-2" />
               <input value={caption} onChange={(e) => setCaption(e.target.value)} placeholder="Descripción (opcional)" className="rounded-lg border border-white/10 bg-black/40 px-4 py-2" />
               <button type="submit" className="rounded-full bg-[#FFD700] px-5 py-2 text-sm font-bold text-[#002B49] hover:bg-[#ffe14d]">Agregar foto</button>
             </form>
-            <div>
-              <label htmlFor="photo-file" className="inline-flex cursor-pointer items-center gap-1 text-sm font-bold"><Upload className="h-4 w-4" /> Subir desde este dispositivo</label>
-              <input id="photo-file" type="file" accept="image/*" multiple onChange={(e) => { addFiles(e.target.files); e.target.value = ''; }} className="mt-2 block w-full text-sm text-gray-300" />
-              <p className="mt-1 text-xs text-gray-500">Máx. {MAX_FILE_MB}MB por archivo. Se guardan en este navegador.</p>
-            </div>
             {notice && <p className="mt-3 text-sm">{notice}</p>}
           </div>
         )}
