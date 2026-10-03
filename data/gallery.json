@@ -1,0 +1,23 @@
+[
+  {
+    "id": "1",
+    "title": "Premiación Campeones 2024",
+    "category": "Premiación",
+    "imageUrl": "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=800",
+    "description": "Entrega de trofeos a los campeones"
+  },
+  {
+    "id": "2",
+    "title": "Fase de Grupos Sub-10",
+    "category": "Partidos",
+    "imageUrl": "https://images.unsplash.com/photo-1517927033932-b3d18e61fb3a?auto=format&fit=crop&q=80&w=800",
+    "description": "Acción en vivo del torneo"
+  },
+  {
+    "id": "3",
+    "title": "Ceremonia de Inauguración",
+    "category": "Equipos",
+    "imageUrl": "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&q=80&w=800",
+    "description": "Desfile de equipos participantes"
+  }
+]

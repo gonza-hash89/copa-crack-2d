@@ -1,8 +1,8 @@
 import { Trophy, CalendarDays, MapPin, Medal, ClipboardList, Camera, Shield } from 'lucide-react';
 import Faq from '../components/Faq';
-import Gallery from '../components/Gallery';
 import HeroOverlay from '../components/HeroOverlay';
 import PastTournaments from '../components/PastTournaments';
+import PhotoGallery from '../components/PhotoGallery';
 import teams from '../data/teams.json';
 
 const WHATSAPP = 'https://wa.me/51944897167?text=Hola,%20deseo%20inscribir%20a%20mi%20equipo%20en%20la%20Copa%20Crack%20Oficial%20(Enero%202027)';
@@ -47,6 +47,8 @@ export default function Home() {
 
       <PastTournaments />
 
+      <PhotoGallery />
+
       <section id="tabla" className={section}>
         <h2 className="mb-1 flex items-center gap-2 text-4xl font-black"><Trophy className="text-[#FFD700]" /> Tabla de Posiciones</h2>
         <p className="mb-8 text-gray-300">Temporada Enero 2027 · En preparación</p>
@@ -67,12 +69,6 @@ export default function Home() {
           <p className="mb-2 text-xl font-black uppercase tracking-wider">Fixture en preparación</p>
           <p className="text-gray-300">Inscripciones abiertas para la Temporada Enero 2027. El fixture y la tabla oficial se publicarán al iniciar el torneo.</p>
         </div>
-      </section>
-
-      <section id="galeria" className={section}>
-        <h2 className="mb-2 flex items-center gap-2 text-4xl font-black"><Camera className="text-[#FFD700]" /> Campeonatos Anteriores</h2>
-        <p className="mb-8 text-gray-300">Revive las ediciones pasadas del torneo</p>
-        <Gallery />
       </section>
 
       <section id="faq" className={section}>
