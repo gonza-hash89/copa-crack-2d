@@ -2,6 +2,7 @@ import { Trophy, CalendarDays, MapPin, Medal, ClipboardList, Camera, Shield } fr
 import Faq from '../components/Faq';
 import Gallery from '../components/Gallery';
 import HeroOverlay from '../components/HeroOverlay';
+import PastTournaments from '../components/PastTournaments';
 import teams from '../data/teams.json';
 
 const WHATSAPP = 'https://wa.me/51944897167?text=Hola,%20deseo%20inscribir%20a%20mi%20equipo%20en%20la%20Copa%20Crack%20Oficial%20(Enero%202027)';
@@ -15,6 +16,7 @@ export default function Home() {
         <p className="font-black tracking-wider">COPA <span className="text-[#FFD700]">CRACK</span> <span className="text-xs tracking-[0.3em]">OFICIAL</span></p>
         <nav className="hidden md:flex gap-6 text-sm font-semibold">
           <a href="#equipos" className="hover:text-[#FFD700]">Equipos</a>
+          <a href="#historial" className="hover:text-[#FFD700]">Historial</a>
           <a href="#tabla" className="hover:text-[#FFD700]">Tabla</a>
           <a href="#partidos" className="hover:text-[#FFD700]">Partidos</a>
           <a href="#galeria" className="hover:text-[#FFD700]">Galería</a>
@@ -42,6 +44,8 @@ export default function Home() {
           </ul>
         </div>
       </section>
+
+      <PastTournaments />
 
       <section id="tabla" className={section}>
         <h2 className="mb-1 flex items-center gap-2 text-4xl font-black"><Trophy className="text-[#FFD700]" /> Tabla de Posiciones</h2>
