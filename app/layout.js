@@ -6,20 +6,20 @@ const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin']
 
 export const metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
-  title: 'Copa Crack Perú | Torneo de Fútbol Menores',
+  title: 'Copa Crack Oficial | Torneo de Fútbol',
   description:
-    'Inscripciones abiertas para la Copa Crack Perú - Temporada Enero 2027. Categorías Sub-6 a Sub-16.',
+    'Inscripciones abiertas para la Copa Crack Oficial - Temporada Enero 2027. Categorías Sub-6 a Sub-16.',
   verification: {
     // Solo el token: Next genera la etiqueta <meta> automáticamente.
     google: 'aq_QrbF_TJjDlPOh8j3PF0g7dwX5r1K-GsSto8GIMfI',
   },
   openGraph: {
-    title: 'Copa Crack Perú | Torneo de Fútbol Menores',
+    title: 'Copa Crack Oficial | Torneo de Fútbol',
     description:
-      'Inscripciones abiertas para la Copa Crack Perú - Temporada Enero 2027. Categorías Sub-6 a Sub-16.',
+      'Inscripciones abiertas para la Copa Crack Oficial - Temporada Enero 2027. Categorías Sub-6 a Sub-16.',
     type: 'website',
     locale: 'es_PE',
-    images: [{ url: '/logo.png', width: 600, height: 600, alt: 'Escudo Copa Crack Perú' }],
+    images: [{ url: '/logo.png', width: 600, height: 600, alt: 'Escudo Copa Crack Oficial' }],
   },
 };
 

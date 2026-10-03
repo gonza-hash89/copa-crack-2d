@@ -12,7 +12,7 @@ export default function HeroOverlay({ whatsapp }) {
       {logoOk && (
         <Image
           src="/logo.png"
-          alt="Escudo oficial Copa Crack Perú"
+          alt="Escudo oficial Copa Crack Oficial"
           width={600}
           height={600}
           priority
