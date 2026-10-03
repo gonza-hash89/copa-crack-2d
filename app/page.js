@@ -1,7 +1,8 @@
-import { Trophy, CalendarDays, MapPin, Medal, ClipboardList, Camera } from 'lucide-react';
+import { Trophy, CalendarDays, MapPin, Medal, ClipboardList, Camera, Shield } from 'lucide-react';
 import Faq from '../components/Faq';
 import Gallery from '../components/Gallery';
 import HeroOverlay from '../components/HeroOverlay';
+import teams from '../data/teams.json';
 
 const WHATSAPP = 'https://wa.me/51944897167?text=Hola,%20deseo%20inscribir%20a%20mi%20equipo%20en%20la%20Copa%20Crack%20Oficial%20(Enero%202027)';
 
@@ -13,6 +14,7 @@ export default function Home() {
       <header className="fixed top-0 inset-x-0 z-10 flex items-center justify-between bg-[#060c14]/85 px-6 py-4 backdrop-blur-md">
         <p className="font-black tracking-wider">COPA <span className="text-[#FFD700]">CRACK</span> <span className="text-xs tracking-[0.3em]">OFICIAL</span></p>
         <nav className="hidden md:flex gap-6 text-sm font-semibold">
+          <a href="#equipos" className="hover:text-[#FFD700]">Equipos</a>
           <a href="#tabla" className="hover:text-[#FFD700]">Tabla</a>
           <a href="#partidos" className="hover:text-[#FFD700]">Partidos</a>
           <a href="#galeria" className="hover:text-[#FFD700]">Galería</a>
@@ -24,6 +26,22 @@ export default function Home() {
       </header>
 
       <HeroOverlay whatsapp={WHATSAPP} />
+
+      <section id="equipos" className={section}>
+        <h2 className="mb-2 flex items-center gap-2 text-4xl font-black"><Shield className="text-[#FFD700]" /> Equipos Participantes</h2>
+        <p className="mb-8 text-gray-300">13 academias confirmadas para Enero 2027</p>
+        <div className="w-full max-w-5xl">
+          <ul className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
+            {teams.map((team) => (
+              <li key={team.id} className="relative rounded-xl border border-white/10 bg-white/5 p-4 text-left transition hover:border-[#FFD700]/50 hover:bg-white/10">
+                <span className="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-[#FFD700]/20 text-xs font-black text-[#FFD700]">{team.id}</span>
+                <p className="font-bold text-white">{team.name}</p>
+                <p className="text-xs text-gray-400">{team.fullName}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
 
       <section id="tabla" className={section}>
         <h2 className="mb-1 flex items-center gap-2 text-4xl font-black"><Trophy className="text-[#FFD700]" /> Tabla de Posiciones</h2>

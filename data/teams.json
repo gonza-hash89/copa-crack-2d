@@ -1,0 +1,15 @@
+[
+  { "id": 1, "name": "Rico Valle", "fullName": "Escuela de Fútbol Rico Valle" },
+  { "id": 2, "name": "Íntimos FC", "fullName": "Academia Deportiva Íntimos FC" },
+  { "id": 3, "name": "Deportivo Municipal", "fullName": "Club Deportivo Municipal" },
+  { "id": 4, "name": "Paulino FC", "fullName": "Academia 30 de Octubre Paulino FC" },
+  { "id": 5, "name": "J&G FC", "fullName": "Escuela Formativa de Alto Rendimiento J&G" },
+  { "id": 6, "name": "Dollar FC", "fullName": "Dollar FC" },
+  { "id": 7, "name": "Aldemar A&M", "fullName": "Club Deportivo Aldemar A&M" },
+  { "id": 8, "name": "Villa Esperanza", "fullName": "Club Deportivo Villa Esperanza" },
+  { "id": 9, "name": "Sport Junior FC", "fullName": "Academia de Fútbol Sport Junior FC" },
+  { "id": 10, "name": "Club Deportivo Huachipa", "fullName": "Club Deportivo Huachipa" },
+  { "id": 11, "name": "Copa de la Amistad", "fullName": "Escuela de Fútbol Copa de la Amistad (Huachipa)" },
+  { "id": 12, "name": "Los Pumas", "fullName": "Los Pumas (Huachipa)" },
+  { "id": 13, "name": "Fé Deportiva", "fullName": "Fé Deportiva" }
+]
