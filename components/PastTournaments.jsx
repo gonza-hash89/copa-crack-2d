@@ -1,7 +1,18 @@
 'use client';
-import { Trophy, Award, ChevronDown, ChevronUp } from 'lucide-react';
+import { Trophy, Award, ChevronDown, ChevronUp, Medal } from 'lucide-react';
 import { useState } from 'react';
 import pastTournaments from '../data/past_tournaments.json';
+
+const CupBadge = ({ type, children }) => {
+  const styles = type === 'gold'
+    ? 'bg-gradient-to-r from-yellow-500 to-amber-600 text-[#002B49]'
+    : 'bg-gradient-to-r from-gray-400 to-gray-600 text-white';
+  return (
+    <span className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-black ${styles}`}>
+      {children}
+    </span>
+  );
+};
 
 export default function PastTournaments() {
   const [openEdition, setOpenEdition] = useState(null);
@@ -54,18 +65,44 @@ export default function PastTournaments() {
                         key={`${edition.id}-${idx}`}
                         className="rounded-xl border border-white/10 bg-white/5 p-4 text-left"
                       >
-                        <div className="mb-3 flex items-center gap-2">
+                        <div className="mb-4 flex items-center gap-2">
                           <Award className="h-5 w-5 text-[#FFD700]" />
                           <span className="font-bold text-lg text-white">{cat.category}</span>
                         </div>
-                        <div className="space-y-2 text-sm">
-                          <div className="flex items-center justify-between">
-                            <span className="text-gray-300">Campeón</span>
-                            <span className="font-semibold text-[#FFD700]">{cat.champion}</span>
+
+                        <div className="grid gap-4 sm:grid-cols-2">
+                          <div className="rounded-lg border border-yellow-500/30 bg-yellow-500/5 p-4">
+                            <div className="mb-3 flex items-center gap-2">
+                              <Trophy className="h-5 w-5 text-yellow-400" />
+                              <CupBadge type="gold">Copa Oro</CupBadge>
+                            </div>
+                            <div className="space-y-2 text-sm">
+                              <div className="flex items-center justify-between">
+                                <span className="text-gray-300">Campeón</span>
+                                <span className="font-semibold text-yellow-300">{cat.gold.champion}</span>
+                              </div>
+                              <div className="flex items-center justify-between">
+                                <span className="text-gray-300">Subcampeón</span>
+                                <span className="font-semibold text-gray-200">{cat.gold.runnerUp}</span>
+                              </div>
+                            </div>
                           </div>
-                          <div className="flex items-center justify-between">
-                            <span className="text-gray-300">Subcampeón</span>
-                            <span className="font-semibold text-gray-200">{cat.runnerUp}</span>
+
+                          <div className="rounded-lg border border-gray-500/30 bg-gray-500/5 p-4">
+                            <div className="mb-3 flex items-center gap-2">
+                              <Medal className="h-5 w-5 text-gray-400" />
+                              <CupBadge type="silver">Copa Plata</CupBadge>
+                            </div>
+                            <div className="space-y-2 text-sm">
+                              <div className="flex items-center justify-between">
+                                <span className="text-gray-300">Campeón</span>
+                                <span className="font-semibold text-gray-300">{cat.silver.champion}</span>
+                              </div>
+                              <div className="flex items-center justify-between">
+                                <span className="text-gray-300">Subcampeón</span>
+                                <span className="font-semibold text-gray-400">{cat.silver.runnerUp}</span>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>

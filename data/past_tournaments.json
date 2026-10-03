@@ -6,13 +6,25 @@
     "categories": [
       {
         "category": "Sub-08",
-        "champion": "Por definir",
-        "runnerUp": "Por definir"
+        "gold": {
+          "champion": "Por definir",
+          "runnerUp": "Por definir"
+        },
+        "silver": {
+          "champion": "Por definir",
+          "runnerUp": "Por definir"
+        }
       },
       {
         "category": "Sub-10",
-        "champion": "Por definir",
-        "runnerUp": "Por definir"
+        "gold": {
+          "champion": "Por definir",
+          "runnerUp": "Por definir"
+        },
+        "silver": {
+          "champion": "Por definir",
+          "runnerUp": "Por definir"
+        }
       }
     ]
   }
