@@ -18,7 +18,7 @@ const FAQS = [
 ];
 
 export default function Faq() {
-  const [openIndex, setOpenIndex] = useState(0);
+  const [openIndex, setOpenIndex] = useState(null);
 
   return (
     <div className="w-full max-w-2xl space-y-3 text-left">
@@ -27,24 +27,20 @@ export default function Faq() {
         return (
           <div
             key={item.q}
-            className={`overflow-hidden rounded-xl border transition ${
-              open ? 'border-[#FFD700]/60 bg-white/10' : 'border-white/10 bg-white/5'
-            }`}
+            className={`card-3d overflow-hidden transition-all duration-300 ${open ? 'border-[#FFD700]/30' : ''}`}
           >
             <button
               onClick={() => setOpenIndex(open ? null : index)}
               aria-expanded={open}
-              className="flex w-full items-center justify-between gap-4 px-6 py-4 text-left font-bold hover:bg-white/5 transition"
+              className="flex w-full items-center justify-between gap-4 px-6 py-4 text-left font-bold transition"
             >
-              <span>{item.q}</span>
+              <span className="text-white">{item.q}</span>
               <ChevronDown
-                className={`h-5 w-5 shrink-0 text-[#FFD700] transition-transform duration-300 ${
-                  open ? 'rotate-180' : ''
-                }`}
+                className={`h-5 w-5 shrink-0 text-[#FFD700] transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
               />
             </button>
             {open && (
-              <div className="border-t border-white/5 px-6 pb-4 pt-3 text-sm text-gray-300">
+              <div className="border-t border-white/10 px-6 pb-4 pt-3 text-sm text-gray-300 animate-fade-in">
                 {item.a}
               </div>
             )}

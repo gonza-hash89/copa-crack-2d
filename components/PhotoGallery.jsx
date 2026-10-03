@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { X, ChevronLeft, ChevronRight, Filter } from 'lucide-react';
 import galleryData from '../data/gallery.json';
@@ -33,18 +33,22 @@ export default function PhotoGallery() {
     });
   };
 
-  const handleKeyDown = (e) => {
-    if (!lightboxOpen) return;
-    if (e.key === 'Escape') closeLightbox();
-    if (e.key === 'ArrowLeft') navigateLightbox(-1);
-    if (e.key === 'ArrowRight') navigateLightbox(1);
-  };
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (!lightboxOpen) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') navigateLightbox(-1);
+      if (e.key === 'ArrowRight') navigateLightbox(1);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [lightboxOpen, filteredPhotos.length]);
 
   const currentPhoto = filteredPhotos[lightboxIndex];
 
   return (
     <section id="galeria" className="min-h-screen flex flex-col items-center justify-center px-6 py-24 text-center">
-      <h2 className="mb-2 flex items-center gap-2 text-4xl font-black">
+      <h2 className="mb-2 flex items-center gap-2 text-4xl font-black heading-3d">
         <Filter className="text-[#FFD700]" /> Galería de Fotos
       </h2>
       <p className="mb-10 text-gray-300">Revive los mejores momentos del torneo</p>
@@ -55,10 +59,10 @@ export default function PhotoGallery() {
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`rounded-full px-5 py-2 text-sm font-semibold transition ${
+              className={`btn-3d px-5 py-2 text-sm ${
                 activeCategory === cat
-                  ? 'bg-[#FFD700] text-[#002B49] shadow-[0_4px_20px_rgba(255,215,0,0.3)]'
-                  : 'bg-white/5 text-gray-300 hover:bg-white/10 hover:text-white border border-white/10'
+                  ? 'btn-gold'
+                  : 'btn-ghost'
               }`}
             >
               {cat}
@@ -67,7 +71,7 @@ export default function PhotoGallery() {
         </div>
 
         {filteredPhotos.length === 0 ? (
-          <div className="rounded-xl border border-white/10 bg-white/5 p-12 text-center">
+          <div className="card-3d p-12 text-center">
             <p className="text-gray-400">No hay fotos en esta categoría.</p>
           </div>
         ) : (
@@ -75,28 +79,24 @@ export default function PhotoGallery() {
             {filteredPhotos.map((photo, index) => (
               <figure
                 key={photo.id}
-                className="group relative overflow-hidden rounded-xl border border-white/10 bg-white/5 cursor-pointer transition hover:border-[#FFD700]/40 hover:shadow-[0_10px_30px_rgba(0,0,0,0.3)]"
+                className="card-3d overflow-hidden cursor-pointer gallery-img"
                 onClick={() => openLightbox(index)}
               >
-                <div className="aspect-[4/3] overflow-hidden">
+                <div className="aspect-[4/3] overflow-hidden relative">
                   <Image
                     src={photo.imageUrl}
                     alt={photo.title}
                     fill
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                    className="object-cover transition duration-300 group-hover:scale-105"
+                    className="object-cover gallery-img"
                     loading="lazy"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
-                <figcaption className="p-3 text-left">
+                <figcaption className="p-3 text-left relative">
                   <p className="font-bold text-white truncate">{photo.title}</p>
                   <p className="text-xs text-[#FFD700]/80">{photo.category}</p>
                 </figcaption>
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center">
-                  <span className="opacity-0 group-hover:opacity-100 transition-opacity text-white text-lg">
-                    Ver ampliada
-                  </span>
-                </div>
               </figure>
             ))}
           </div>
@@ -105,7 +105,7 @@ export default function PhotoGallery() {
 
       {lightboxOpen && currentPhoto && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4"
+          className="lightbox-overlay fixed inset-0 z-50 flex items-center justify-center p-4"
           onClick={closeLightbox}
           role="dialog"
           aria-modal="true"
@@ -113,7 +113,7 @@ export default function PhotoGallery() {
         >
           <button
             onClick={(e) => { e.stopPropagation(); closeLightbox(); }}
-            className="absolute top-4 right-4 rounded-full bg-white/10 p-2 text-white hover:bg-white/20 transition z-10"
+            className="absolute top-4 right-4 rounded-full bg-white/10 p-2 text-white hover:bg-white/20 transition z-10 btn-3d"
             aria-label="Cerrar"
           >
             <X className="h-6 w-6" />
@@ -121,7 +121,7 @@ export default function PhotoGallery() {
 
           <button
             onClick={(e) => { e.stopPropagation(); navigateLightbox(-1); }}
-            className="absolute left-4 rounded-full bg-white/10 p-3 text-white hover:bg-white/20 transition z-10 hidden md:flex"
+            className="absolute left-4 rounded-full bg-white/10 p-3 text-white hover:bg-white/20 transition z-10 hidden md:flex btn-3d"
             aria-label="Anterior"
           >
             <ChevronLeft className="h-8 w-8" />
@@ -133,7 +133,7 @@ export default function PhotoGallery() {
               alt={currentPhoto.title}
               width={800}
               height={600}
-              className="max-w-full max-h-[85vh] object-contain"
+              className="lightbox-img max-w-full max-h-[85vh] object-contain rounded-xl"
               priority
             />
             <div className="mt-4 text-left">
@@ -145,7 +145,7 @@ export default function PhotoGallery() {
 
           <button
             onClick={(e) => { e.stopPropagation(); navigateLightbox(1); }}
-            className="absolute right-4 rounded-full bg-white/10 p-3 text-white hover:bg-white/20 transition z-10 hidden md:flex"
+            className="absolute right-4 rounded-full bg-white/10 p-3 text-white hover:bg-white/20 transition z-10 hidden md:flex btn-3d"
             aria-label="Siguiente"
           >
             <ChevronRight className="h-8 w-8" />
@@ -154,14 +154,14 @@ export default function PhotoGallery() {
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 md:hidden">
             <button
               onClick={(e) => { e.stopPropagation(); navigateLightbox(-1); }}
-              className="rounded-full bg-white/10 p-2 text-white hover:bg-white/20"
+              className="btn-3d btn-ghost p-2"
               aria-label="Anterior"
             >
               <ChevronLeft className="h-6 w-6" />
             </button>
             <button
               onClick={(e) => { e.stopPropagation(); navigateLightbox(1); }}
-              className="rounded-full bg-white/10 p-2 text-white hover:bg-white/20"
+              className="btn-3d btn-ghost p-2"
               aria-label="Siguiente"
             >
               <ChevronRight className="h-6 w-6" />
