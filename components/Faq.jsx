@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const FAQS = [
   {
@@ -21,30 +22,46 @@ export default function Faq() {
   const [openIndex, setOpenIndex] = useState(null);
 
   return (
-    <div className="w-full max-w-2xl space-y-3 text-left">
+    <div className="max-w-3xl w-full mx-auto space-y-4">
       {FAQS.map((item, index) => {
         const open = openIndex === index;
         return (
-          <div
+          <motion.div
             key={item.q}
-            className={`card-3d overflow-hidden transition-all duration-300 ${open ? 'border-[#FFD700]/30' : ''}`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
+            className="glass-card overflow-hidden"
+            style={{ borderColor: open ? 'rgba(255, 215, 0, 0.3)' : 'rgba(255, 215, 0, 0.12)' }}
           >
             <button
               onClick={() => setOpenIndex(open ? null : index)}
               aria-expanded={open}
-              className="flex w-full items-center justify-between gap-4 px-6 py-4 text-left font-bold transition"
+              className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left font-bold text-white transition-colors hover:bg-white/[0.02]"
             >
-              <span className="text-white">{item.q}</span>
-              <ChevronDown
-                className={`h-5 w-5 shrink-0 text-[#FFD700] transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
-              />
+              <span>{item.q}</span>
+              <motion.div
+                animate={{ rotate: open ? 180 : 0 }}
+                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                className="h-5 w-5 shrink-0 text-[var(--gold)]"
+              >
+                <ChevronDown className="h-5 w-5" />
+              </motion.div>
             </button>
-            {open && (
-              <div className="border-t border-white/10 px-6 pb-4 pt-3 text-sm text-gray-300 animate-fade-in">
-                {item.a}
-              </div>
-            )}
-          </div>
+            <AnimatePresence>
+              {open && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                  className="border-t border-white/10 px-6 pb-5 pt-3 text-sm text-gray-300"
+                >
+                  {item.a}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
         );
       })}
     </div>
