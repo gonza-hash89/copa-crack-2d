@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --background: #020408;
+  --background: #050b07;
   --foreground: #f5f5f5;
   --gold: #ffd700;
   --gold-dim: #e6c200;
   --gold-dark: #b89600;
-  --cyber-green: #00b4ff;
-  --cyber-orange: #ff6b35;
+  --cyber-green: #00e676;
+  --cyber-green-dim: #00c853;
   --whatsapp-green: #25d366;
 }
 
@@ -34,9 +34,88 @@ body {
   overflow-x: hidden;
 }
 
+/* ===== FONDO ESTILO ESTADIO NOCTURNO (CSS PURO) ===== */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    /* Resplandor principal: luz de estadio dorada/verde en centro-superior */
+    radial-gradient(
+      ellipse 70% 50% at 50% 15%,
+      rgba(0, 230, 118, 0.18) 0%,
+      rgba(255, 215, 0, 0.12) 30%,
+      rgba(0, 180, 90, 0.06) 55%,
+      transparent 80%
+    ),
+    /* Resplandor secundario más sutil en la base */
+    radial-gradient(
+      ellipse 60% 30% at 50% 95%,
+      rgba(0, 200, 83, 0.08) 0%,
+      transparent 70%
+    ),
+    /* Patrón sutil de textura de césped (muy bajo contraste) */
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 100, 40, 0.02) 0px,
+      rgba(0, 100, 40, 0.02) 1px,
+      transparent 1px,
+      transparent 24px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 100, 40, 0.015) 0px,
+      rgba(0, 100, 40, 0.015) 1px,
+      transparent 1px,
+      transparent 24px
+    ),
+    /* Viñeta oscura en los bordes para profundidad */
+    radial-gradient(
+      ellipse at center,
+      transparent 40%,
+      rgba(5, 11, 7, 0.9) 100%
+    );
+  background-size:
+    100% 100%,
+    100% 100%,
+    100% 48px,
+    48px 100%,
+    100% 100%;
+  animation: stadium-glow 12s ease-in-out infinite alternate;
+}
+
+@keyframes stadium-glow {
+  0% {
+    background-position:
+      50% 15%,
+      50% 95%,
+      0 0,
+      0 0,
+      center center;
+    opacity: 0.95;
+  }
+  100% {
+    background-position:
+      52% 13%,
+      48% 97%,
+      0 0,
+      0 0,
+      center center;
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before {
+    animation: none;
+  }
+}
+
 /* ===== SCROLLBAR ESTILO PREMIUM ===== */
 ::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: #020408; }
+::-webkit-scrollbar-track { background: #050b07; }
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, var(--gold), var(--gold-dark));
   border-radius: 4px;
@@ -79,14 +158,6 @@ body {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
 }
-@keyframes float {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-12px) rotate(2deg); }
-}
-@keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.2), 0 0 40px rgba(255, 215, 0, 0.1); }
-  50% { box-shadow: 0 0 40px rgba(255, 215, 0, 0.4), 0 0 80px rgba(255, 215, 0, 0.2); }
-}
 @keyframes shimmer {
   0% { background-position: -200% center; }
   100% { background-position: 200% center; }
@@ -104,7 +175,7 @@ body {
 /* ===== GLASSMORPHISM CARDS ===== */
 .glass-card {
   position: relative;
-  background: linear-gradient(145deg, rgba(15, 20, 35, 0.85), rgba(8, 12, 22, 0.95));
+  background: linear-gradient(145deg, rgba(10, 25, 15, 0.85), rgba(5, 15, 8, 0.95));
   border: 1px solid rgba(255, 215, 0, 0.12);
   border-radius: 1rem;
   backdrop-filter: blur(20px) saturate(180%);
@@ -120,7 +191,7 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255, 215, 0, 0.03) 0%, transparent 50%, rgba(0, 180, 255, 0.03) 100%);
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.03) 0%, transparent 50%, rgba(0, 230, 118, 0.03) 100%);
   opacity: 0;
   transition: opacity 0.4s ease;
   pointer-events: none;
@@ -243,21 +314,21 @@ body {
 }
 
 .btn-neon {
-  background: linear-gradient(180deg, rgba(0, 180, 255, 0.2) 0%, rgba(0, 180, 255, 0.05) 100%);
+  background: linear-gradient(180deg, rgba(0, 230, 118, 0.2) 0%, rgba(0, 230, 118, 0.05) 100%);
   color: var(--cyber-green);
-  border: 1px solid rgba(0, 180, 255, 0.3);
+  border: 1px solid rgba(0, 230, 118, 0.3);
   box-shadow:
-    0 4px 0 0 rgba(0, 180, 255, 0.15),
-    0 10px 24px rgba(0, 180, 255, 0.15);
+    0 4px 0 0 rgba(0, 230, 118, 0.15),
+    0 10px 24px rgba(0, 230, 118, 0.15);
 }
 
 .btn-neon:hover {
-  background: linear-gradient(180deg, rgba(0, 180, 255, 0.3) 0%, rgba(0, 180, 255, 0.1) 100%);
-  border-color: rgba(0, 180, 255, 0.5);
+  background: linear-gradient(180deg, rgba(0, 230, 118, 0.3) 0%, rgba(0, 230, 118, 0.1) 100%);
+  border-color: rgba(0, 230, 118, 0.5);
   box-shadow:
-    0 4px 0 0 rgba(0, 180, 255, 0.25),
-    0 14px 32px rgba(0, 180, 255, 0.2),
-    0 0 30px rgba(0, 180, 255, 0.2);
+    0 4px 0 0 rgba(0, 230, 118, 0.25),
+    0 14px 32px rgba(0, 230, 118, 0.2),
+    0 0 30px rgba(0, 230, 118, 0.2);
   transform: translateY(-3px);
 }
 
@@ -291,7 +362,7 @@ body {
 
 /* ===== LIGHTBOX ===== */
 .lightbox-overlay {
-  background: rgba(2, 4, 8, 0.98);
+  background: rgba(5, 11, 7, 0.98);
   backdrop-filter: blur(12px);
 }
 .lightbox-img {

@@ -1,6 +1,6 @@
 import { Trophy, CalendarDays, MapPin, Medal, ClipboardList, Camera, Shield } from 'lucide-react';
 import Faq from '../components/Faq';
-import HeroSceneWrapper from '../components/3D/HeroSceneWrapper';
+import HeroOverlay from '../components/HeroOverlay';
 import PastTournaments from '../components/PastTournaments';
 import PhotoGallery from '../components/PhotoGallery';
 import teams from '../data/teams.json';
@@ -10,9 +10,7 @@ const WHATSAPP = 'https://wa.me/51944897167?text=Hola,%20deseo%20inscribir%20a%2
 export default function Home() {
   return (
     <div className="relative min-h-screen text-white">
-      <HeroSceneWrapper />
-
-      <header className="fixed top-0 inset-x-0 z-10 flex items-center justify-between bg-[#020408]/90 px-6 py-4 backdrop-blur-2xl border-b border-white/5">
+      <header className="fixed top-0 inset-x-0 z-10 flex items-center justify-between bg-[#050b07]/90 px-6 py-4 backdrop-blur-2xl border-b border-white/5">
         <p className="font-black tracking-wider heading-gold text-2xl">COPA <span>CRACK</span> <span className="text-xs tracking-[0.3em] text-white/70">OFICIAL</span></p>
         <nav className="hidden md:flex gap-8 text-sm font-semibold">
           <a href="#equipos" className="nav-link">Equipos</a>
@@ -26,6 +24,8 @@ export default function Home() {
           Inscribirme
         </a>
       </header>
+
+      <HeroOverlay whatsapp={WHATSAPP} />
 
       <section id="equipos" className="section-premium">
         <div className="max-w-7xl w-full">
@@ -80,7 +80,7 @@ export default function Home() {
             <CalendarDays className="text-[var(--gold)]" /> Próximos Partidos
           </h2>
           <div className="glass-card p-10 md:p-12">
-            <CalendarDays className="mx-auto mb-6 h-14 w-14 text-[var(--cyber-orange)]" />
+            <CalendarDays className="mx-auto mb-6 h-14 w-14 text-[var(--cyber-green)]" />
             <p className="mb-3 text-2xl font-black uppercase tracking-wider">Fixture en preparación</p>
             <p className="text-gray-300">Inscripciones abiertas para la Temporada Enero 2027. El fixture y la tabla oficial se publicarán al iniciar el torneo.</p>
           </div>
