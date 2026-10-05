@@ -4,28 +4,69 @@ import './globals.css';
 const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] });
 const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://copa-crack-oficial.vercel.app';
+
 export const metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
-  title: 'Copa Crack Oficial | Torneo de Fútbol',
-  description: 'Sitio web oficial de la Copa Crack Oficial.',
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: 'Copa Crack | Torneo de Fútbol Formativo',
+    template: '%s | Copa Crack',
+  },
+  description: 'Torneo de fútbol formativo. Donde los futuros cracks juegan, aprenden y sueñan bajo las luces del estadio. Inscribe a tu academia.',
+  keywords: ['Copa Crack', 'fútbol formativo', 'torneo fútbol', 'academias fútbol', 'Lima Perú', 'Sub-6', 'Sub-8', 'Sub-10', 'Sub-12', 'Sub-14', 'Sub-16'],
+  authors: [{ name: 'Copa Crack Oficial' }],
+  creator: 'Copa Crack Oficial',
+  publisher: 'Copa Crack Oficial',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   verification: {
-    // Solo el token: Next genera la etiqueta <meta> automáticamente.
     google: 'aq_QrbF_TJjDlPOh8j3PF0g7dwX5r1K-GsSto8GIMfI',
   },
   openGraph: {
-    title: 'Copa Crack Oficial | Torneo de Fútbol',
-    description: 'Sitio web oficial de la Copa Crack Oficial.',
+    title: 'Copa Crack | Torneo de Fútbol Formativo',
+    description: 'Torneo de fútbol formativo. Donde los futuros cracks juegan, aprenden y sueñan bajo las luces del estadio. Inscribe a tu academia.',
     type: 'website',
     locale: 'es_PE',
-    images: [{ url: '/logo.png', width: 600, height: 600, alt: 'Escudo Copa Crack Oficial' }],
+    url: siteUrl,
+    siteName: 'Copa Crack Oficial',
+    images: [
+      {
+        url: '/logo.png',
+        width: 1200,
+        height: 630,
+        alt: 'Copa Crack Oficial - Torneo de Fútbol Formativo',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Copa Crack | Torneo de Fútbol Formativo',
+    description: 'Torneo de fútbol formativo. Donde los futuros cracks juegan, aprenden y sueñan bajo las luces del estadio. Inscribe a tu academia.',
+    images: ['/logo.png'],
+    creator: '@copacrackoficial',
+  },
+  alternates: {
+    canonical: siteUrl,
   },
 };
 
 export default function RootLayout({ children }) {
   return (
-    // suppressHydrationWarning: ignora el lang reescrito por extensiones
-    // (traductor) solo en <html>, sin ocultar errores reales del resto
     <html lang="es" suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="sitemap" href="/sitemap.xml" />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {children}
       </body>
