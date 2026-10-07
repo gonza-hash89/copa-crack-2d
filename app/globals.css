@@ -37,26 +37,49 @@ body {
   font-family: var(--font-geist-sans), system-ui, sans-serif;
   min-height: 100vh;
   background-image:
-    /* Diagonal stadium lights pattern */
+    /* Diagonal mesh/net pattern - visible 4-5% opacity */
     repeating-linear-gradient(
       45deg,
       transparent,
-      transparent 40px,
-      rgba(255, 190, 11, 0.02) 40px,
-      rgba(255, 190, 11, 0.02) 41px
+      transparent 30px,
+      rgba(255, 190, 11, 0.04) 30px,
+      rgba(255, 190, 11, 0.04) 31px
     ),
     repeating-linear-gradient(
       -45deg,
       transparent,
-      transparent 40px,
-      rgba(255, 30, 39, 0.015) 40px,
-      rgba(255, 30, 39, 0.015) 41px
+      transparent 30px,
+      rgba(255, 30, 39, 0.035) 30px,
+      rgba(255, 30, 39, 0.035) 31px
     ),
-    /* Stadium flood lights */
-    radial-gradient(ellipse 70% 40% at 10% 0%, rgba(255, 30, 39, 0.22), transparent 65%),
-    radial-gradient(ellipse 60% 35% at 90% 5%, rgba(255, 190, 11, 0.18), transparent 65%),
-    radial-gradient(ellipse 80% 40% at 50% 100%, rgba(255, 30, 39, 0.1), transparent 60%);
+    /* Horizontal field lines */
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 60px,
+      rgba(255, 190, 11, 0.025) 60px,
+      rgba(255, 190, 11, 0.025) 61px
+    ),
+    /* Stadium flood lights - 4 corners + center */
+    radial-gradient(ellipse 80% 50% at 5% 0%, rgba(255, 30, 39, 0.25), transparent 60%),
+    radial-gradient(ellipse 80% 50% at 95% 0%, rgba(255, 190, 11, 0.22), transparent 60%),
+    radial-gradient(ellipse 80% 50% at 5% 100%, rgba(255, 190, 11, 0.18), transparent 60%),
+    radial-gradient(ellipse 80% 50% at 95% 100%, rgba(255, 30, 39, 0.2), transparent 60%),
+    /* Central stadium spotlight */
+    radial-gradient(ellipse 100% 60% at 50% 30%, rgba(255, 190, 11, 0.15), transparent 55%),
+    /* Vertical field stripes */
+    linear-gradient(90deg, transparent 48%, rgba(255, 190, 11, 0.02) 49%, rgba(255, 190, 11, 0.02) 51%, transparent 52%);
   background-attachment: fixed;
+  background-size:
+    80px 80px,
+    80px 80px,
+    100% 120px,
+    400px 300px,
+    400px 300px,
+    400px 300px,
+    400px 300px,
+    800px 600px,
+    100% 100%;
 }
 
 .font-display {
@@ -66,11 +89,14 @@ body {
 
 /* Sharp/angular glass card */
 .glass {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.025);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 190, 11, 0.2);
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.02) inset, 8px 8px 0 rgba(255, 190, 11, 0.08), 16px 16px 0 rgba(255, 30, 39, 0.05);
+  border: 1px solid rgba(255, 190, 11, 0.18);
+  box-shadow: 
+    0 0 0 1px rgba(255, 255, 255, 0.02) inset,
+    8px 8px 0 rgba(255, 190, 11, 0.06),
+    16px 16px 0 rgba(255, 30, 39, 0.04);
   clip-path: polygon(0 2%, 2% 0, 100% 0, 100% 98%, 98% 100%, 0 100%);
 }
 
@@ -111,7 +137,7 @@ body {
 .enter-2 { animation-delay: 0.15s; }
 .enter-3 { animation-delay: 0.25s; }
 .enter-4 { animation-delay: 0.35s; }
-.enter-5 { animation-delay: 0.45s; }
+.enter-4 { animation-delay: 0.45s; }
 
 @keyframes fade-in-up {
   from { opacity: 0; transform: translateY(15px); }
@@ -184,6 +210,11 @@ body {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
+}
+
+@keyframes shimmer-diagonal {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
 
 /* Gold gradient text */
