@@ -29,7 +29,7 @@ function Cup({ title, badge, border, data }) {
 export default function PastTournaments() {
   const [open, setOpen] = useState(editions[0]?.id);
   return (
-    <section id="historial" className="px-4 py-16">
+    <section id="historial" className="px-4 py-16 scroll-mt-20">
       <div className="mx-auto max-w-3xl">
         <h2 className="font-display text-4xl sm:text-5xl text-center enter enter-1">Historial de campeones</h2>
         <div className="mt-10 space-y-3">

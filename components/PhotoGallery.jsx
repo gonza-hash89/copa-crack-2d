@@ -23,7 +23,7 @@ export default function PhotoGallery() {
   const current = index !== null ? list[index] : null;
 
   return (
-    <section id="galeria" className="px-4 py-16">
+    <section id="galeria" className="px-4 py-16 scroll-mt-20">
       <div className="mx-auto max-w-6xl">
         <h2 className="font-display text-4xl sm:text-5xl text-center enter enter-1">Galería</h2>
         <div className="mt-6 flex flex-wrap justify-center gap-2 enter enter-2">

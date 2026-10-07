@@ -1,6 +1,11 @@
 import teams from "@/data/teams.json";
 
-function Crest({ short, color }) {
+function Crest({ short, color, logo }) {
+  if (logo) {
+    return (
+      <img src={logo} alt={`${short} crest`} className="w-20 h-20 object-contain filter drop-shadow-lg" />
+    );
+  }
   return (
     <svg width="72" height="80" viewBox="0 0 72 80" aria-hidden="true">
       <path d="M36 3 66 14v28c0 18-13 29-30 35C19 71 6 60 6 42V14z" fill="#07140d" stroke={color} strokeWidth="3" />
@@ -12,7 +17,7 @@ function Crest({ short, color }) {
 
 export default function Teams() {
   return (
-    <section id="equipos" className="px-4 py-16">
+    <section id="equipos" className="px-4 py-16 scroll-mt-20">
       <div className="mx-auto max-w-6xl">
         <h2 className="font-display text-4xl sm:text-5xl text-center enter enter-1">Equipos</h2>
         <p className="mt-4 mx-auto w-fit rounded-full border border-gold/60 bg-gold/10 px-5 py-2 text-sm text-gold enter enter-2">
@@ -21,7 +26,7 @@ export default function Teams() {
         <ul className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {teams.map((t, i) => (
             <li key={t.id} className="glass rounded-2xl p-4 flex flex-col items-center text-center hover:border-gold/60 transition-colors fade-in-up" style={{ animationDelay: `${i * 60}ms` }}>
-              <Crest short={t.short} color={t.color} />
+              <Crest short={t.short} color={t.color} logo={t.logo} />
               <span className="mt-3 text-sm font-medium leading-snug">{t.name}</span>
             </li>
           ))}
