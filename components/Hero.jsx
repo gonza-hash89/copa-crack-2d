@@ -7,12 +7,12 @@ export default function Hero() {
   return (
     <section id="inicio" className="pt-40 sm:pt-32 pb-20 px-4">
       <div className="mx-auto max-w-3xl text-center flex flex-col items-center">
-        <Logo size={150} className="enter enter-1" />
-        <h1 className="font-display text-6xl sm:text-8xl mt-6 bg-gradient-to-r from-gold via-yellow-200 to-neon bg-clip-text text-transparent enter enter-2">
+        <Logo size={150} className="enter enter-1 drop-shadow-[0_0_40px_rgba(255,190,11,0.4)]" />
+        <h1 className="font-display text-6xl sm:text-8xl mt-6 bg-gradient-to-r from-gold-bright via-gold to-red bg-clip-text text-transparent enter enter-2 animate-gradient-shift">
           COPA CRACK
         </h1>
-        <p className="mt-2 text-lg sm:text-xl text-emerald-50/90 enter enter-3">Torneo de fútbol formativo</p>
-        <p className="mt-4 max-w-xl text-emerald-50/70 enter enter-4">
+        <p className="mt-2 text-lg sm:text-xl text-white/90 enter enter-3">Torneo de fútbol formativo</p>
+        <p className="mt-4 max-w-xl text-white/70 enter enter-4">
           Donde los futuros cracks juegan, aprenden y sueñan bajo las luces del estadio.
         </p>
         <a

@@ -3,9 +3,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        neon: "#10b981",
-        gold: "#f59e0b",
-        night: "#050c08",
+        red: "#ff1e27",
+        "red-dark": "#e60000",
+        gold: "#ffbe0b",
+        "gold-bright": "#ffcc00",
+        night: "#080404",
       },
     },
   },

@@ -25,14 +25,16 @@ export default function PhotoGallery() {
   return (
     <section id="galeria" className="px-4 pt-24 pb-16">
       <div className="mx-auto max-w-6xl">
-        <h2 className="font-display text-4xl sm:text-5xl text-center enter enter-1">Galería</h2>
+        <h2 className="font-display text-4xl sm:text-5xl text-center enter enter-1 text-gradient-gold">
+          Galería
+        </h2>
         <div className="mt-6 flex flex-wrap justify-center gap-2 enter enter-2">
           {filters.map((f) => (
             <button
               key={f}
               onClick={() => { setFilter(f); setIndex(null); }}
               aria-pressed={filter === f}
-              className={`rounded-full px-4 py-1.5 text-sm border transition-colors ${filter === f ? "bg-neon text-night border-neon" : "glass text-emerald-50/80 hover:text-gold"}`}
+              className={`rounded-full px-4 py-1.5 text-sm border transition-colors ${filter === f ? "bg-gradient-to-r from-red to-gold text-red-dark border-gold" : "glass text-white/80 hover:text-gold hover:border-gold/50"}`}
             >
               {f}
             </button>
@@ -41,9 +43,9 @@ export default function PhotoGallery() {
         <ul className="mt-8 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
           {list.map((p, i) => (
             <li key={p.id}>
-              <button onClick={() => setIndex(i)} className="group relative block w-full aspect-square overflow-hidden rounded-2xl glass" aria-label={`Ver ${p.title}`}>
+              <button onClick={() => setIndex(i)} className="group relative block w-full aspect-square overflow-hidden rounded-2xl glass hover:border-gold hover:border-2 transition-all duration-300" aria-label={`Ver ${p.title}`}>
                 <img src={p.url} alt={p.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-3 text-left text-xs">{p.title}</span>
+                <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-red/80 via-red/40 to-transparent p-3 text-left text-xs">{p.title}</span>
               </button>
             </li>
           ))}
@@ -57,7 +59,7 @@ export default function PhotoGallery() {
           <button onClick={(e) => { e.stopPropagation(); setIndex((index - 1 + list.length) % list.length); }} aria-label="Anterior" className="absolute left-3 text-4xl text-white/80 hover:text-gold">‹</button>
           <figure onClick={(e) => e.stopPropagation()} className="max-h-full max-w-4xl">
             <img src={current.url} alt={current.title} className="lightbox-img max-h-[80vh] w-auto rounded-xl mx-auto" />
-            <figcaption className="mt-3 text-center text-sm text-emerald-50/80">{current.title} · {current.category}</figcaption>
+            <figcaption className="mt-3 text-center text-sm text-gold">{current.title} · {current.category}</figcaption>
           </figure>
           <button onClick={(e) => { e.stopPropagation(); setIndex((index + 1) % list.length); }} aria-label="Siguiente" className="absolute right-3 text-4xl text-white/80 hover:text-gold">›</button>
         </div>
