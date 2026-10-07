@@ -8,7 +8,7 @@ const socials = [
 
 export default function Footer() {
   return (
-    <footer id="contacto" className="px-4 pt-16 pb-10 scroll-mt-20">
+    <footer id="contacto" className="px-4 pt-24 pb-10">
       <div className="mx-auto max-w-3xl glass rounded-2xl p-6 text-center">
         <h2 className="font-display text-3xl">Contacto</h2>
         <p className="mt-3 text-emerald-50/80">WhatsApp: +51 944 897 167</p>

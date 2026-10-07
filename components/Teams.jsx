@@ -1,23 +1,30 @@
+"use client";
+
 import teams from "@/data/teams.json";
+import Image from "next/image";
 
 function Crest({ short, color, logo }) {
   if (logo) {
     return (
-      <img src={logo} alt={`${short} crest`} className="w-20 h-20 object-contain filter drop-shadow-lg" />
+      <Image
+        src={logo}
+        alt={`${short} crest`}
+        width={80}
+        height={80}
+        className="w-20 h-20 object-contain filter drop-shadow-lg"
+      />
     );
   }
   return (
-    <svg width="72" height="80" viewBox="0 0 72 80" aria-hidden="true">
-      <path d="M36 3 66 14v28c0 18-13 29-30 35C19 71 6 60 6 42V14z" fill="#07140d" stroke={color} strokeWidth="3" />
-      <path d="M36 3 66 14v10H6V14z" fill={color} opacity=".25" />
-      <text x="36" y="55" textAnchor="middle" fontFamily="Impact, sans-serif" fontSize="24" fill={color}>{short}</text>
-    </svg>
+    <div className="w-20 h-20 rounded-xl flex items-center justify-center bg-gradient-to-br from-neon/30 to-gold/30 border border-neon/50 shadow-lg">
+      <span className="font-black text-2xl text-white drop-shadow-lg">{short}</span>
+    </div>
   );
 }
 
 export default function Teams() {
   return (
-    <section id="equipos" className="px-4 py-16 scroll-mt-20">
+    <section id="equipos" className="px-4 pt-24 pb-16">
       <div className="mx-auto max-w-6xl">
         <h2 className="font-display text-4xl sm:text-5xl text-center enter enter-1">Equipos</h2>
         <p className="mt-4 mx-auto w-fit rounded-full border border-gold/60 bg-gold/10 px-5 py-2 text-sm text-gold enter enter-2">
